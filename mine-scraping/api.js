@@ -2,10 +2,11 @@
 
 var express = require('express');
 var azure_sql = require("./modules/azure-sql");
+var cors = require('cors');
 
 var app = express();
 app.use(express.static(__dirname + '/public'));
-
+app.use(cors());
 
 //Routing
 app.get('/api/items', function (req, res) {
