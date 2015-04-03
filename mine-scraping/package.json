@@ -2,7 +2,7 @@
   "name": "Minescrapping",
   "version": "1.0.0",
   "description": "Web scrapping of minecraft wiki page.",
-  "main": "server.js",
+  "main": "api.js",
   "dependencies": {
     "azure-storage": "^0.4.3",
     "cheerio": "^0.19.0",
