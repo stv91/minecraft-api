@@ -1,8 +1,9 @@
 var sql = require('mssql'); 
  
 
- 
-var config = {
+
+
+/*var config = {
     user: '',
     password: '',
     server: '', // You can use 'localhost\\instance' to connect to named instance 
@@ -11,7 +12,7 @@ var config = {
     options: {
         encrypt: true // Use this if you're on Windows Azure 
     }
-}
+}*/
  
 var insertItem = function(item) {
     
@@ -29,11 +30,13 @@ console.log(queryString);
     else
     {
         var request = new sql.Request(connection);
-
         request.query(queryString, function(err, recordset) {
-            console.log("Response");
-            console.log(err);
-            console.log(recordset);
+            if(err) {
+                console.log(err);
+            }
+            if(recordset) {
+                console.log(recordset);
+            }
         });
     }
         
