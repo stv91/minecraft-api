@@ -5,6 +5,9 @@ var _ = require('underscore');
 /*var recipes_p = require('./modules/recipes_parser');
 var items_p = require('./modules/items_parser');*/
 var SCRAPER = require('./modules/scraper');
+var azure_sql = require("./modules/azure-sql");
+var azure_storage = require("./modules/azure-storage-upload");
+
 
 var BLOCKS = [];
 var ITEMS = [];
@@ -13,7 +16,7 @@ var RECIPES = [];
 var _PRUEBAS;
 
 //Starting the server
-console.log("Starting server...");
+//console.log("Starting server...");
 var app = express();
 app.use(express.static(__dirname + '/public'));
 
@@ -43,7 +46,38 @@ SCRAPER.scrap(function(data){
 	ITEMS = data.items;
 	RECIPES = data.crafts;
 	app.listen(process.env.PORT || 3000);
-	console.log("Server started");
+	//console.log("Server started");
+	var pos = 0;
+
+	function next(){
+		if(pos < ITEMS.length) {
+			var item = ITEMS[pos];
+			pos++;
+			azure_sql.insertItem({id: item.dec, name: item.name, displayName: item.block, type: item.type, stackable: item.stackable},
+				next);
+			/*console.log("[" + pos + "/" + ITEMS.length + "]" + item.dec + ": " + item.img);
+			if(item.dec && item.img)
+			{
+				azure_storage.uploadFile(item.dec,item.img, next);
+			}
+			else
+			{
+				next();
+			}*/
+			
+		}
+	}
+
+	next();
+	/*ITEMS.forEach(function(item){
+		if(item) {
+			if(item.dec && item.img)
+			{
+				azure_storage.uploadFile(item.dec,item.img);
+			}
+			azure_sql.insertItem({id: item.dec, name: item.name, displayName: item.block, type: item.type, stackable: item.stackable});
+		}
+	});*/
 })
 
 //This function is called when all ids are gotten
