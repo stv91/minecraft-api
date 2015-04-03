@@ -1,54 +1,75 @@
 'use strict'
 
 var express = require('express');
-var request = require('request');
-var cheerio = require('cheerio');
-var table_parser = require('./modules/table_parser');
+var _ = require('underscore');
+/*var recipes_p = require('./modules/recipes_parser');
+var items_p = require('./modules/items_parser');*/
+var SCRAPER = require('./modules/scraper');
 
+var BLOCKS = [];
+var ITEMS = [];
+var IMAGES = [];
+var RECIPES = [];
+var _PRUEBAS;
 
-//Inicializamos el servidor
+//Starting the server
+console.log("Starting server...");
 var app = express();
-
 app.use(express.static(__dirname + '/public'));
 
-function getUrl(section){
-	var url = "http://minecraft.gamepedia.com/api.php?action=parse&format=json&prop=text&title=Crafting&text=";
+
+//Routing
+app.get('/scrap/:section', function (req, res) {
+	var section = req.params.section;
 	switch(section){
-		case "building-blocks": url += "%7B%7B%3ACrafting%2FBuilding+blocks%7D%7D"; break;
-		case "decoration-blocks": url += "%7B%7B%3ACrafting%2FDecoration+blocks%7D%7D"; break;
-		case "redstone": url += "%7B%7B%3ACrafting%2FRedstone%7D%7D"; break;
-		case "transportation": url += "%7B%7B%3ACrafting%2FTransportation%7D%7D"; break;
-		case "foodstuffs": url += "%7B%7B%3ACrafting%2FFoodstuffs%7D%7D"; break;
-		case "tools": url += "%7B%7B%3ACrafting%2FTools%7D%7D"; break;
-		case "combat": url += "%7B%7B%3ACrafting%2FCombat%7D%7D"; break;
-		case "brewing": url += "%7B%7B%3ACrafting%2FBrewing%7D%7D"; break;
-		case "materials": url += "%7B%7B%3ACrafting%2FMaterials%7D%7D"; break;
-		case "miscellaneous": url += "%7B%7B%3ACrafting%2FMiscellaneous%7D%7D"; break;
+		case 'items' : res.send(ITEMS); break;
+		case 'blocks' : res.send(BLOCKS); break;
+		case 'images' : res.send(IMAGES); break;
+		case 'recipes' : res.send(RECIPES); break;
+		case 'pruebas' : res.send(_PRUEBAS); break;
 	}
-	return url;
-}
-
-
-// Definición de las rutas
-app.get('/:section', function (req, res) {
-	var url = getUrl(req.params.section);
-	request(url, function (error, response, body) {
-			var json = JSON.parse(body)
-			var html = json.parse.text["*"];
-	        res.json(table_parser.parse(html));
-	});
 });
 
 
-app.get('/source/:section', function (req, res) {
-	var url = getUrl(req.params.section);
-	request(url, function (error, response, body) {
-
-			var json = JSON.parse(body)
-			var html = json.parse.text["*"];
-	        res.send(html);
-	});
+//This function is called when all the data is obtained
+var dataObtained = _.after(1, function(){
+	app.listen(process.env.PORT || 3000);
+	console.log("Server started");
 });
 
-// Esuchamos las peticiones para procesarlas
-app.listen(process.env.PORT || 3000);
+/****************** Getting data ********************/
+SCRAPER.scrap(function(data){
+	_PRUEBAS = data.details;
+	ITEMS = data.items;
+	RECIPES = data.crafts;
+	app.listen(process.env.PORT || 3000);
+	console.log("Server started");
+})
+
+//This function is called when all ids are gotten
+/*var idObtained = _.after(2, function(){
+	var ids = BLOCKS.concat(ITEMS);
+	console.log("- Images obtained");
+	recipes_p.parse(function(response){
+		RECIPES = response;
+		console.log("- Recipes obtained");
+		dataObtained();
+	}, ids);
+});
+
+items_p.parse("Item", function(response){
+	ITEMS = response.items;
+	IMAGES = IMAGES.concat(response.images);
+	console.log("- Items ids obtained");
+	idObtained();
+});
+
+items_p.parse("Block", function(response){
+	BLOCKS = response.items;
+	IMAGES = IMAGES.concat(response.images);
+	console.log("- Blocks ids obtained");
+	idObtained();
+});*/
+
+/******************************************************/
+
