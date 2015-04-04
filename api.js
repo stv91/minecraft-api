@@ -13,10 +13,9 @@ app.use(cors());
 //Routing
 app.get('/api/items/:page?', function (req, res) {
 	var page = req.params.page || 0;
-	page = Number.isInteger(page) ? page : 0;
+	//page = Number.isInteger(page) ? page : 0;
 	var response = azure_sql.getAllItems(page, function(err, recordset) {
-		//res.json(recordset);
-		res.send("Error: " + err + "<br/> Recordset:" + recordset);
+		res.json(recordset);
 	});
 });
 
