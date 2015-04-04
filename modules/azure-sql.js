@@ -84,8 +84,12 @@ var insertItem = function(item, callback) {
     }
 };
 
-var getAllItems = function(callback) {
-    var queryString = "SELECT * FROM Items";
+var getAllItems = function(page, callback) {
+    var tam = 20;
+    var offset = page * tam;
+
+    var queryString = "SELECT * FROM Items ORDER BY Id OFFSET " + offset + " ROWS FETCH NEXT " + tam + " ROWS ONLY;";// RowNum >= " + offset + " AND RowNum <= " + (tam - offset);
+
     console.log(queryString);
 
      query(queryString, callback);

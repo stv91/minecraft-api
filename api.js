@@ -11,8 +11,10 @@ app.use(express.static(__dirname + '/public'));
 app.use(cors());
 
 //Routing
-app.get('/api/items', function (req, res) {
-	var response = azure_sql.getAllItems(function(err, recordset) {
+app.get('/api/items/:page?', function (req, res) {
+	var page = req.params.page || 0;
+	page = Number.isInteger(page) ? page : 0;
+	var response = azure_sql.getAllItems(page, function(err, recordset) {
 		res.json(recordset);
 	});
 });
