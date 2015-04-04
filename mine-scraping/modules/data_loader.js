@@ -12,7 +12,7 @@ var file_manager = {
 		bakeds : "bakeds.json"
 	},
 	exists : function(file){
-		return fs.existsSync(this.files[file]);
+		return fs.existsSync(this.base_path + this.files[file]);
 	},
 	existsAll : function(){
 		var files = Object.keys(this.files);

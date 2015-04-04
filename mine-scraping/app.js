@@ -2,7 +2,7 @@
 
 var stdio = require('stdio');
 var data_loader = require('./modules/data_loader');
-var server = require('./modules/testing_server');
+var server = require('./web/server');
 
 //app arguments 
 var args = {
@@ -17,6 +17,7 @@ var args = {
 	options : stdio.getopt({
 	    'reset': {description: 'Redo all web scraping'},
 	    'refresh': {args : '*', description: 'Redo web scraping of the specified sections ' + this.refresh_opc_string},
+	    'web-server' : {key : "s", description : 'Set up the web server'}
 	}),
 	checks : function(){
 		if(this.options.refresh === true)
@@ -46,6 +47,7 @@ var args = {
 args.checks();
 
 data_loader.getData(args.options, function(data){
-	server.start(data);
+	if(args.options["web-server"])
+		server.start(data);
 });
 
