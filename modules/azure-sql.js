@@ -69,6 +69,7 @@ var query = function(queryString, callback) {
     var connection = new sql.Connection(config, function () {
         var request = new sql.Request(connection);
         request.query(queryString, callback);
+        connection.close();
     });
 }
  
