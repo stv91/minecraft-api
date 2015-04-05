@@ -3,7 +3,14 @@
 var stdio = require('stdio');
 var data_loader = require('./mine-scraping/modules/data_loader');
 var server = require('./mine-scraping/web/server');
-var ds = require('./data_store/modules/storer');
+var ds;
+try {
+	ds = require('./data_store/modules/storer');
+}
+catch(err){
+	console.log(err);
+}
+
 
 //app arguments 
 var args = {

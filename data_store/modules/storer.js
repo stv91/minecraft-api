@@ -1,3 +1,6 @@
+var azure_storage = require('./azure-storage-upload');
+var azure_sql = require('./azure_sql');
+
 var actions = {
 	insertItems : function(data){
 		var pos = 0;
