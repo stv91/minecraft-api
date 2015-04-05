@@ -1,8 +1,8 @@
 'use strict'
 
 var stdio = require('stdio');
-var data_loader = require('./mine-scraping/modules/data_loader');
-var server = require('./mine-scraping/web/server');
+var data_loader = require('./modules/data_loader');
+var server = require('./web/server');
 var ds;
 try {
 	ds = require('./data_store/modules/storer');
@@ -63,7 +63,7 @@ if(args.options["reset"] || args.options["refresh"]
 		if(args.options["web-server"])
 			server.start(data);
 		if(args.options["store"])
-			storer.store();
+			ds.store(data);
 		if(args.options["api"])
 			require('./api');
 

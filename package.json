@@ -2,21 +2,14 @@
   "name": "Minescrapping",
   "version": "1.0.0",
   "description": "Web scrapping of minecraft wiki page.",
-<<<<<<< HEAD:package.json
-  "main": "app.js",
-=======
   "main": "api.js",
->>>>>>> 570956bf71c633886f7d74f20a60154fd00cb6e0:package.json
   "dependencies": {
     "azure-storage": "^0.4.3",
     "cheerio": "^0.19.0",
     "cors": "^2.5.3",
     "express": "^4.12.3",
-<<<<<<< HEAD:package.json
     "fs": "0.0.2",
     "jsonfile": "^2.0.0",
-=======
->>>>>>> 570956bf71c633886f7d74f20a60154fd00cb6e0:package.json
     "mssql": "^2.1.2",
     "request": "^2.53.0",
     "stdio": "^0.2.7",

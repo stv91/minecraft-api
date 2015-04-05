@@ -43,8 +43,10 @@ function parse(index, ids, func){
 	var base_url = "http://minecraft.gamepedia.com";
 	//console.log(base_url + ids[index].src);
 	REQUEST(base_url + ids[index].src, function (error, response, body) {
-		var out = parseDetails(body, ids[index]);
-		func(out);
+		if(body) {
+			var out = parseDetails(body, ids[index]);
+			func(out);
+		}
 	});
 }
 
