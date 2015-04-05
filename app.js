@@ -8,16 +8,16 @@ var ds = require('./data_store/modules/storer');
 //app arguments 
 var args = {
 	refresh_opc : ["crafts", "potions", "bakeds"],
-	refresh_opc_string : function() {
+	/*refresh_opc_string : function() {
 		var string = "[";
 		for(i in this.refresh_opc){
 			string += string == "["? this.refresh_opc[i] : " | " + this.refresh_opc[i];
 		}
 		return string + "]";
-	},
+	},*/
 	options : stdio.getopt({
 	    'reset': {description: 'Redo all web scraping'},
-	    'refresh': {args : '*', description: 'Redo web scraping of the specified sections ' + this.refresh_opc_string},
+	    'refresh': {args : '*', description: 'Redo web scraping of the specified sections [crafts | potions | bakeds]'},
 	    'web-server' : {description : 'Set up the web server to test web scraping'},
 	    'store' : {description : 'Sets web scraping data to db and storage'},
 	    'api' : {description : 'Set up api web server'},

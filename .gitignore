@@ -27,5 +27,9 @@ node_modules
 # Users Environment Variables
 .lock-wscript
 
+<<<<<<< HEAD
 # Our json data
 data
+=======
+test
+>>>>>>> 570956bf71c633886f7d74f20a60154fd00cb6e0
