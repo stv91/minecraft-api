@@ -1,8 +1,9 @@
 'use strict'
 
 var stdio = require('stdio');
-var data_loader = require('./modules/data_loader');
-var server = require('./web/server');
+var data_loader = require('./mine-scraping/modules/data_loader');
+var server = require('./mine-scraping/web/server');
+var ds = require('./data_store/modules/storer');
 
 //app arguments 
 var args = {
@@ -17,7 +18,9 @@ var args = {
 	options : stdio.getopt({
 	    'reset': {description: 'Redo all web scraping'},
 	    'refresh': {args : '*', description: 'Redo web scraping of the specified sections ' + this.refresh_opc_string},
-	    'web-server' : {key : "s", description : 'Set up the web server'}
+	    'web-server' : {description : 'Set up the web server to test web scraping'},
+	    'store' : {description : 'Sets web scraping data to db and storage'},
+	    'api' : {description : 'Set up api web server'},
 	}),
 	checks : function(){
 		if(this.options.refresh === true)
@@ -46,8 +49,19 @@ var args = {
 //checking app options
 args.checks();
 
-data_loader.getData(args.options, function(data){
-	if(args.options["web-server"])
-		server.start(data);
-});
+if(args.options["reset"] || args.options["refresh"] 
+	|| args.options["web-server"] || args.options["store"]){
 
+	data_loader.getData(args.options, function(data){
+		if(args.options["web-server"])
+			server.start(data);
+		if(args.options["store"])
+			storer.store();
+		if(args.options["api"])
+			require('./api');
+
+	});
+}
+else if(args.options["api"]){
+	require('./api');
+}

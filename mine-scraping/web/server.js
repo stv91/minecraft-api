@@ -17,8 +17,9 @@ function start(data) {
 			case 'bakeds' : res.send(data.bakeds); break;
 		}
 	});
-	app.listen(process.env.PORT || 3000);
-	console.log("Server started");
+	var port = 3001;
+	app.listen(process.env.PORT || port);
+	console.log("Server started. Port " + port);
 }
 
 module.exports = {start: start};

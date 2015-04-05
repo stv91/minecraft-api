@@ -4,7 +4,7 @@ var scraper = require('./scraper');
 var _ = require('underscore');
 
 var file_manager = {
-	base_path : './data/',
+	base_path : './mine-scraping/data/',
 	files : {
 		items : "items.json",
 		crafts : "crafts.json",
