@@ -1,0 +1,46 @@
+h1 {
+	text-align: center;
+}
+
+.graphic-panel, .json-panel {
+	outline: black solid 2px;
+	height: 80vh;
+	margin-right: 2%;
+	margin-left: 2%;
+	overflow-y: auto;
+	width: 46%;
+}
+
+.graphic-panel {
+	float: left;
+}
+
+.json-panel {
+	float: right;
+	background: #eee;
+}
+
+table.table-view {
+	background: #eee;
+	border-collapse: collapse;
+	margin: 0 auto;
+	margin-top: 5%;
+	margin-bottom: 5%;
+	text-align: center;
+	width: 90%;
+}
+
+table.table-view>tbody>tr>th, table.table-view>tbody>tr>td,
+table.table-view>thead>tr>th {
+	border: 1px solid #aaa;
+}
+
+table.table-view>tbody>tr>th, table.table-view>thead>tr>th {
+	font-weight: bold;
+	padding: 5px;
+}
+
+img.icon {
+	width: 25px;
+	height: 25px;
+}

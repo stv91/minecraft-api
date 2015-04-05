@@ -1,0 +1,31 @@
+<h1> {{ title }}</h1>
+<div class="graphic-panel">
+	<table class="table-view">
+		<thead>
+			<tr>
+				<th> Icon </th>
+				<th> Dec </th>
+				<th> Hex </th>
+				<th> Name </th>
+				<th> Block </th>
+				<th> Type </th>
+				<th> Stackable </th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr ng-repeat="item in items">
+				<td><img class="icon" ng-src="{{ item.img}}" alt=""></td>
+				<td>{{ item.dec }}</td>
+				<td>{{ item.hex }}</td>
+				<td>{{ item.name }}</td>
+				<td>{{ item.block }}</td>
+				<td>{{ item.type }}</td>
+				<td>{{ item.stackable }}</td>
+			</tr>
+		</tbody>
+	</table>
+</div>
+<div class="json-panel">
+	<pre> {{ json }} </pre>
+</div>
+

@@ -109,25 +109,30 @@ var PARALLEL_SCRAPS = {
 		/*function(potions){
 			func({potions : potions});
 		}*/
-		func({potions : "Comming soon"});
+		func({potions : ["Comming soon"]});
 		
 	},
 	getBakeds : function(ids, func){
 		/*function(bakeds){
 			func({bakeds : bakeds});
 		}*/
-		func({backeds : "Comming soon"});
+		func({bakeds : ["Comming soon"]});
 	}
 }
 
 
 /******************* Module main function **********************/
 
-function scrap(func){
+function scrap(func, items, parallel_scrapts){
+	
 	var out = {
 		items: []
 	};
-	var finished = _.after(Object.keys(PARALLEL_SCRAPS).length, function() {
+
+	if(!items)
+		parallel_scrapts = Object.keys(PARALLEL_SCRAPS);
+
+	var finished = _.after(parallel_scrapts.length, function() {
 		console.log("- Scraping finished");
 		func(out);
 	});
@@ -137,13 +142,22 @@ function scrap(func){
 		finished();
 	}
 
-	getIds(function(ids){
-		out.items = ids;
+	if(!items){
+		getIds(function(ids){
+			out.items = ids;
+			console.log("- Starting scraping");
+			for(i in parallel_scrapts){
+				PARALLEL_SCRAPS[parallel_scrapts[i]](ids, setData);
+			}
+		});
+	}
+	else {
+		out.items = items;
 		console.log("- Starting scraping");
-		for(scrap in PARALLEL_SCRAPS){
-			PARALLEL_SCRAPS[scrap](ids, setData);
+		for(i in parallel_scrapts){
+			PARALLEL_SCRAPS[parallel_scrapts[i]](items, setData);
 		}
-	});
+	}
 }
 
 module.exports = {scrap: scrap};
