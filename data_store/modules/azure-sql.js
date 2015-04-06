@@ -13,7 +13,16 @@ var config = {
 }
 
 var connection = new sql.Connection(config);
-connection.connect(function (error){});
+var tryConnect = function() {
+    connection.connect(function (error){
+        if(error)
+        {
+           tryConnect(); 
+        }
+    });
+}
+
+tryConnect();
 
 var createValuesQuery = function(item) {
 
