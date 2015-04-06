@@ -8,7 +8,7 @@ var settings = require('./data_store/modules/settings');
 
 var app = express();
 /*app.use(express.static(__dirname + '/public'));*/
-app.use(cors());
+/*app.use(cors());*/
 
 //Routing
 /*app.get('/api/items/:page?', function (req, res) {
