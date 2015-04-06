@@ -117,7 +117,7 @@ var getAllItems = function(page, req, callback) {
                     var next = (!page || (+page+1) < last) ? fullUrl + (+1 + +page) : null;
                     var previous = (page && page != "0") ? fullUrl + (+page + -1) : null;
 
-                    var response = { totalCount: itemsCount, items: items, previous: previous, next: next };
+                    var response = { totalCount: itemsCount, previous: previous, next: next, items: items };
                     callback(countErrors, response); 
                 }
                 else {
