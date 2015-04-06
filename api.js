@@ -14,7 +14,7 @@ app.use(cors());
 app.get('/api/items/:page?', function (req, res) {
 	var page = req.params.page || 0;
 	//page = Number.isInteger(page) ? page : 0;
-	var response = azure_sql.getAllItems(page, function(err, recordset) {
+	var response = azure_sql.getAllItems(page, req, function(err, recordset) {
 		res.json(recordset);
 	});
 });

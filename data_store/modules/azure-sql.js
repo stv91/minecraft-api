@@ -94,20 +94,41 @@ var insertItem = function(item, callback) {
     if(itemQuery) {
         var queryString = "INSERT INTO Items" + itemQuery;
         
-        query(queryString, callback);
+        query(queryString, function(err, recordset) { callback(err, recordset); });
         
     }
 };
 
-var getAllItems = function(page, callback) {
+var getAllItems = function(page, req, callback) {
     var tam = 20;
     var offset = page * tam;
 
     var queryString = "SELECT * FROM Items ORDER BY Id OFFSET " + offset + " ROWS FETCH NEXT " + tam + " ROWS ONLY;";// RowNum >= " + offset + " AND RowNum <= " + (tam - offset);
 
     console.log(queryString);
+    query(queryString, function(itemsError, items) { 
+        if(!itemsError) {
+            var countQueryString = "SELECT COUNT(*) FROM Items";
+            query(countQueryString, function(countErrors, count) { 
+                if(!countErrors) {
+                    var itemsCount = (count[0] && count[0]['']) ? count[0][''] : 0;
+                    var fullUrl = req.protocol + '://' + req.get('host') + "/api/items/";
+                    var last = itemsCount / tam;
+                    var next = (!page || (+page+1) < last) ? fullUrl + (+1 + +page) : null;
+                    var previous = (page && page != "0") ? fullUrl + (+page + -1) : null;
 
-     query(queryString, callback);
+                    var response = { totalCount: itemsCount, items: items, previous: previous, next: next };
+                    callback(countErrors, response); 
+                }
+                else {
+                    callback(countErrors, count); 
+                }
+            });
+        }
+        else {
+            callback(itemsError, items); 
+        } 
+    });
 }
 
 module.exports = {insertItem: insertItem, getAllItems: getAllItems};
