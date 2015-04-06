@@ -11,7 +11,7 @@ app.use(express.static(__dirname + '/public'));
 app.use(cors());
 
 //Routing
-/*app.get('/api/items/:page?', function (req, res) {
+app.get('/api/items/:page?', function (req, res) {
 	var page = req.params.page || 0;
 	//page = Number.isInteger(page) ? page : 0;
 	var response = azure_sql.getAllItems(page, function(err, recordset) {
@@ -22,15 +22,6 @@ app.use(cors());
 app.get('/api/version', function (req, res) {
 	res.send("Version " + process.env.VERSION + " USER:" + settings.db_user);
 });
-
-var port = parseInt(process.env.PORT) || 3000;
-app.listen(port);
-
-process.on('uncaughtException', function (err) {
-  console.error((new Date).toUTCString() + ' uncaughtException:', err.message);
-  console.error(err.stack);
-  process.exit(1);
-})*/
 
 app.get('/api/version', function (req, res) {
 	res.send("Hola mundo");
