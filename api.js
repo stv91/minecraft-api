@@ -1,9 +1,9 @@
 'use strict'
 
 var express = require('express');
-var azure_sql = require("./data_store/modules/azure-sql");
+/*var azure_sql = require("./data_store/modules/azure-sql");
 var cors = require('cors');
-var settings = require('./data_store/modules/settings');
+var settings = require('./data_store/modules/settings');*/
 
 
 var app = express();
@@ -36,7 +36,7 @@ app.get('/api/version', function (req, res) {
 	res.send("Hola mundo");
 });
 
-var port = parseInt(process.env.PORT) || 3000;
+var port = parseInt(process.env.PORT) || 80;
 app.listen(port);
 
 console.log('Api started. Port ' + port);
