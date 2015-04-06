@@ -26,4 +26,10 @@ app.get('/api/version', function (req, res) {
 var port = parseInt(process.env.PORT) || 3000;
 app.listen(port);
 
+process.on('uncaughtException', function (err) {
+  console.error((new Date).toUTCString() + ' uncaughtException:', err.message);
+  console.error(err.stack);
+  process.exit(1);
+})
+
 console.log('Api started. Port ' + port);

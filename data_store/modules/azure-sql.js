@@ -66,7 +66,10 @@ var createValuesQuery = function(item) {
 
 var query = function(queryString, callback) {
     console.log(queryString);
-    var connection = new sql.Connection(config, function () {
+    var connection = new sql.Connection(config, function (error) {
+        if(error)
+            console.error(error);
+        
         var request = new sql.Request(connection);
         request.query(queryString, function(err, recordset) {
             connection.close();
