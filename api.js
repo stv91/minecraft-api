@@ -36,7 +36,7 @@ app.get('/api/version', function (req, res) {
 	res.send("Hola mundo");
 });
 
-var port = parseInt(process.env.PORT) || 80;
+var port = process.env.PORT || 3000;
 app.listen(port);
 
 console.log('Api started. Port ' + port);
