@@ -99,36 +99,22 @@ var insertItem = function(item, callback) {
     }
 };
 
-var getAllItems = function(page, req, callback) {
-    var tam = 20;
-    var offset = page * tam;
+var virtualizedData = function(baseQueryString, page, max, callback) {
+    var max = 20;
+    var offset = page * max;
 
-    var queryString = "SELECT * FROM Items ORDER BY Id OFFSET " + offset + " ROWS FETCH NEXT " + tam + " ROWS ONLY;";// RowNum >= " + offset + " AND RowNum <= " + (tam - offset);
-
-    console.log(queryString);
-    query(queryString, function(itemsError, items) { 
-        if(!itemsError) {
-            var countQueryString = "SELECT COUNT(*) FROM Items";
-            query(countQueryString, function(countErrors, count) { 
-                if(!countErrors) {
-                    var itemsCount = (count[0] && count[0]['']) ? count[0][''] : 0;
-                    var fullUrl = req.protocol + '://' + req.get('host') + "/api/items/";
-                    var last = itemsCount / tam;
-                    var next = (!page || (+page+1) < last) ? fullUrl + (+1 + +page) : null;
-                    var previous = (page && page != "0") ? fullUrl + (+page + -1) : null;
-
-                    var response = { totalCount: itemsCount, previous: previous, next: next, items: items };
-                    callback(countErrors, response); 
-                }
-                else {
-                    callback(countErrors, count); 
-                }
-            });
-        }
-        else {
-            callback(itemsError, items); 
-        } 
-    });
+    var queryString = baseQueryString + " OFFSET " + offset + " ROWS FETCH NEXT " + max + " ROWS ONLY;";
+    query(queryString, callback);
 }
 
-module.exports = {insertItem: insertItem, getAllItems: getAllItems};
+var getItems = function(page, max, callback) {
+    var baseQueryString = "SELECT * FROM Items ORDER BY Id";
+    virtualizedData(baseQueryString, page, max, callback);
+} 
+
+var getItemsCount = function(callback) {
+    var countQueryString = "SELECT COUNT(*) FROM Items";
+    query(countQueryString, callback);
+} 
+
+module.exports = {insertItem: insertItem, getItems: getItems, getItemsCount: getItemsCount};
