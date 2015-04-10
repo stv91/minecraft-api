@@ -108,7 +108,7 @@ var virtualizedData = function(baseQueryString, page, max, callback) {
 }
 
 var getItems = function(page, max, callback) {
-    var baseQueryString = "SELECT * FROM Items ORDER BY Id";
+    var baseQueryString = "SELECT Id, DisplayName FROM Items ORDER BY Id";
     virtualizedData(baseQueryString, page, max, callback);
 } 
 
@@ -118,7 +118,7 @@ var getItemsCount = function(callback) {
 } 
 
 var getItemsByType = function(type, page, max, callback) {
-    var baseQueryString = "SELECT * FROM Items WHERE Type = '" + type + "' ORDER BY Id";
+    var baseQueryString = "SELECT Id, DisplayName FROM Items WHERE Type = '" + type + "' ORDER BY Id";
     virtualizedData(baseQueryString, page, max, callback);
 } 
 
@@ -127,9 +127,14 @@ var getItemsCountByType = function(type, callback) {
     query(countQueryString, callback);
 } 
 
+var getItem = function(id, callback) {
+    var countQueryString = "SELECT * FROM Items WHERE Id = '" + id + "'";
+    query(countQueryString, callback);
+} 
+
 var getTypes = function(callback) {
     var queryString = "SELECT Distinct Type FROM Items";
     query(queryString, callback);
 } 
 
-module.exports = {insertItem: insertItem, getItems: getItems, getItemsCount: getItemsCount, getItemsByType: getItemsByType, getItemsCountByType: getItemsCountByType, getTypes: getTypes};
+module.exports = {insertItem: insertItem, getItems: getItems, getItemsCount: getItemsCount, getItemsByType: getItemsByType, getItemsCountByType: getItemsCountByType, getTypes: getTypes, getItem: getItem};
