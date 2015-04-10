@@ -117,4 +117,14 @@ var getItemsCount = function(callback) {
     query(countQueryString, callback);
 } 
 
-module.exports = {insertItem: insertItem, getItems: getItems, getItemsCount: getItemsCount};
+var getItemsByType = function(type, page, max, callback) {
+    var baseQueryString = "SELECT * FROM Items WHERE Type = '" + type + "' ORDER BY Id";
+    virtualizedData(baseQueryString, page, max, callback);
+} 
+
+var getItemsCountByType = function(type, callback) {
+    var countQueryString = "SELECT COUNT(*) FROM Items WHERE Type = '" + type + "'";
+    query(countQueryString, callback);
+} 
+
+module.exports = {insertItem: insertItem, getItems: getItems, getItemsCount: getItemsCount, getItemsByType: getItemsByType, getItemsCountByType: getItemsCountByType};
