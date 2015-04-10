@@ -37,7 +37,7 @@ app.get('/api/items/:page?', function (req, res) {
 
             var next = (!page || page < last) ? fullUrl + (+1 + +page) : null;
             var previous = (page && page != "0") ? fullUrl + (+page + -1) : null;
-            if(page < 0 || page > last) {
+            if(page < 0 || page > last || itemsCount <= max)) {
             	next = previous = null;
             }
 
@@ -76,7 +76,8 @@ app.get('/api/type/:type/:page?', function (req, res) {
 
                 var next = (!page || page < last) ? fullUrl + (+1 + +page) : null;
                 var previous = (page && page != "0") ? fullUrl + (+page + -1) : null;
-                if(page < 0 || page > last) {
+                console.log(page*max);
+                if(page < 0 || page > last || itemsCount <= max) {
                     next = previous = null;
                 }
 
