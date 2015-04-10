@@ -106,6 +106,16 @@ app.get('/api/type/:type/:page?', function (req, res) {
     }
 });
 
+app.get('/api/types', function (req, res) {
+     azure_sql.getTypes(function(errorTypes, response) {
+        if(!errorTypes) {
+            res.json(response);
+        } else {
+            res.send("Items Error");
+        }
+    });
+});
+
 app.get('/api/main', function (req, res) {
 
     var host = req.protocol + '://' + req.get('host');

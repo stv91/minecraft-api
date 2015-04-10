@@ -127,4 +127,9 @@ var getItemsCountByType = function(type, callback) {
     query(countQueryString, callback);
 } 
 
-module.exports = {insertItem: insertItem, getItems: getItems, getItemsCount: getItemsCount, getItemsByType: getItemsByType, getItemsCountByType: getItemsCountByType};
+var getTypes = function(callback) {
+    var queryString = "SELECT Distinct Type FROM Items";
+    query(queryString, callback);
+} 
+
+module.exports = {insertItem: insertItem, getItems: getItems, getItemsCount: getItemsCount, getItemsByType: getItemsByType, getItemsCountByType: getItemsCountByType, getTypes: getTypes};
